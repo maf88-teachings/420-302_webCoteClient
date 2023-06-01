@@ -1,0 +1,49 @@
+= Plan de cours
+Antoine Moevus <antoine@moev.us>;
+:doctype: book
+:toc:
+:toc-title: Table des matières
+:source-highlighter: rouge
+:rouge-style: github
+:mmdc: ./node_modules/.bin/mmdc
+:mermaid:  ./node_modules/.bin/mermaid
+
+<<<
+
+== INTRODUCTION À LA PROGRAMMATION WEB ET AUX SPA
+*	Concepts de base de la programmation Web
+*	Présentation des SPA (Single Page Applications)
+*	Avantages et inconvénients des SPA par rapport aux applications multipages traditionnelles
+* Media Query
+
+== MAITRISER LE DOM (DOCUMENT OBJECT MODEL)
+*	Utilisation de méthodes avancées de JavaScript avec le DOM : Par exemple, comment utiliser `filter()` pour sélectionner certains éléments en fonction de leurs attributs, ou comment utiliser `map()` pour créer une nouvelle liste d'éléments basée sur une liste existante.
+*	Comment utiliser la délégation d'événements pour gérer efficacement les événements sur de nombreux éléments.
+*	Introduction aux techniques de performance : `DocumentFragment` pour minimiser les reflow et repaint, utilisation de techniques de débogage pour identifier les goulots d'étranglement de performance.
+
+== INTRODUCTION À AJAX
+*	Qu'est-ce que AJAX ?
+*	Comment AJAX est utilisé dans les SPA pour charger les données dynamiquement
+*	Exemple de code avec AJAX
+
+== FORMATS DE DONNÉES POUR LE WEB
+*	Présentation des formats JSON et XML
+*	Le format CSV
+*	Le format binaire
+*	Autres formats
+*	Comment lire, écrire et convertir ces formats avec JavaScript
+
+== PROGRAMMATION ASYNCHRONE AVEC JAVASCRIPT
+*	Différence entre la programmation synchrone et asynchrone
+*	Promesses, fonctions asynchrones et attente en JavaScript
+*	Comment utiliser la programmation asynchrone avec AJAX
+
+== CRÉATION D'UNE SPA
+*	Comment structurer et organiser votre code
+*	Bonnes pratiques pour la création de SPA
+*	Comment déboguer et tester votre application
+
+== CONCLUSION
+*	Récapitulatif des concepts clés
+*	Tendances et évolutions futures dans le développement de SPA
+*	Ressources pour continuer à apprendre
