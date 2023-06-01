@@ -1,0 +1,54 @@
+= Maîtriser le DOM
+Antoine Moevus <antoine@moev.us>;
+:doctype: book
+:toc:
+:toc-title: Table des matières
+:source-highlighter: rouge
+:rouge-style: github
+:mmdc: ./node_modules/.bin/mmdc
+:mermaid:  ./node_modules/.bin/mermaid
+
+<<<
+
+== Introduction au DOM (Document Object Model)
+
+=== Les bases du DOM
+- Explication ici...
+
+=== Pourquoi le DOM est crucial
+- Explication ici...
+
+== Méthodes avancées de JavaScript avec le DOM
+
+=== Utilisation de `filter()`
+- Explication et exemple de code ici...
+
+=== Utilisation de `map()`
+- Explication et exemple de code ici...
+
+=== Autres méthodes utiles
+- Explication ici...
+
+== Gestion efficace des événements avec la délégation d'événements
+
+=== Qu'est-ce que la délégation d'événements
+- Explication ici...
+
+=== Comment implémenter la délégation d'événements
+- Explication et exemple de code ici...
+
+== Amélioration des performances avec DocumentFragment et d'autres techniques
+
+=== Introduction à `DocumentFragment`
+- Explication et exemple de code ici...
+
+=== Autres techniques de débogage et d'amélioration des performances
+- Explication ici...
+
+== Conclusion et exercices pratiques
+
+=== Récapitulatif des concepts clés
+- Explication ici...
+
+=== Exercices pratiques
+- Proposez ici quelques exercices basés sur le contenu du cours...
