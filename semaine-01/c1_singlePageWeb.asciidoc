@@ -22,7 +22,7 @@ Antoine Moevus <antoine@moev.us>;
 . https://vimeo.com/832014356/9a58b7fffb[Introduction]
 . https://vimeo.com/832017180/48c845eb3e[SPA côté client]
 . https://vimeo.com/832021539/5321ea8eec[SPA côté serveur et API Web]
-. https://vimeo.com/832028127/1dddf5962e[API RESTful]
+. https://vimeo.com/832037642/8cd26c6ac0[API RESTful]
 
 == Introduction
 
