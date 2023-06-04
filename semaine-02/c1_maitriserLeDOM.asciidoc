@@ -10,45 +10,453 @@ Antoine Moevus <antoine@moev.us>;
 
 <<<
 
+== Références
+
+. https://en.wikipedia.org/wiki/Tree_(data_structure)
+. https://en.wikipedia.org/wiki/Document_Object_Model
+. https://developer.mozilla.org/en-US/docs/Glossary/Node/DOM
+. https://developer.mozilla.org/en-US/docs/Web/API/Event/currentTarget
+. https://javascript.info/bubbling-and-capturing
+. https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment
+. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+
 == Introduction au DOM (Document Object Model)
 
 === Les bases du DOM
-- Explication ici...
+Le Document Object Model, plus couramment appelé DOM, l'API la plus utilisé pour les sites Web. C'est une interface de programmation pour les documents HTML et XML. Il représente la structure du document sous forme d'un arbre d'éléments, où chaque élément est appelé un noeud et correspond à une partie du document, par exemple une balise HTML. Ces noeuds peuvent être manipulés à l'aide de langages de script tels que JavaScript. 
+
+Un document HTML est structuré en noeuds et chaque noeud peut avoir des noeuds enfants. Par exemple, dans le document HTML suivant :
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mon premier site web</title>
+</head>
+<body>
+    <h1>Bienvenue sur mon site web</h1>
+    <p>C'est mon premier site web.</p>
+    <button>Cliquez</button>
+</body>
+</html>
+----
+
+La balise `<html>` est un noeud parent qui a deux noeuds enfants : `<head>` et `<body>`. Ces noeuds enfants ont eux-mêmes des noeuds enfants : `<title>` pour `<head>` et `<h1>` et `<p>` pour `<body>`.
 
 === Pourquoi le DOM est crucial
-- Explication ici...
+Le DOM est crucial car il sert de pont entre le document HTML et JavaScript. En manipulant le DOM, on peut modifier le contenu et la structure d'un document HTML, ajouter des styles, créer des interactions dynamiques, et bien plus encore. Par exemple, on peut utiliser JavaScript pour ajouter un nouvel élément à une liste, changer la couleur d'un paragraphe, ou afficher une boîte de dialogue lorsque l'utilisateur clique sur un bouton.
+
+Sans le DOM, nous n'aurions pas la possibilité de créer des pages web interactives et dynamiques. Ainsi, la maîtrise du DOM est une compétence essentielle pour tout développeur web.
+
+Chaque nœud a un type qui détermine quel genre d'informations le nœud contient et comment il peut être interagi avec. Voici quelques types de nœuds couramment utilisés dans le DOM :
+
+* `Document` : Il s'agit du nœud racine qui représente le document lui-même.
+* ``Element`` : Ce sont les nœuds qui représentent les éléments HTML dans le document, par exemple une balise <p> ou <div>.
+* ``Text`` : Ces nœuds représentent le texte contenu dans les éléments.
+* ``Attribute`` : Ces nœuds représentent les attributs d'un élément HTML, par exemple href dans une balise <a>.
+
+Chaque nœud dans le DOM a des propriétés et des méthodes qui permettent d'interagir avec. Par exemple, un nœud d'élément a une propriété `innerHTML` qui vous permet de modifier son contenu, et une méthode `appendChild()` qui vous permet d'ajouter un nœud enfant.
+
+De plus, les nœuds dans le DOM sont disposés dans une structure d'arbre. Donc chaque nœud peut avoir un nœud parent, des nœuds frères et des nœuds enfants. Cette structure hiérarchique permet de naviguer facilement dans le document et de trouver des nœuds spécifiques.
+
+=== Rappels
+
+==== Accéder au DOM
+
+L'accès et la manipulation du DOM commencent généralement avec l'objet `document`, une représentation globale de la page HTML chargée dans la fenêtre du navigateur. Cet objet contient une multitude de méthodes pour interagir avec le DOM. Voici quelques-unes des plus utilisées pour accéder à des éléments du DOM :
+
+* `getElementById(id)`: Cette méthode renvoie l'élément dont l'attribut ID correspond à la chaîne spécifiée.
+
+[source, javascript]
+----
+let element = document.getElementById("monId");
+----
+
+* `getElementsByClassName(className)`: Cette méthode renvoie une collection HTML en direct de tous les éléments enfants qui ont tous les noms de classe spécifiés.
+
+[source, javascript]
+----
+let elements = document.getElementsByClassName("maClasse");
+----
+
+* `getElementsByTagName(tagName)`: Cette méthode renvoie une collection HTML de tous les éléments descendants avec le nom de la balise donnée.
+
+[source, javascript]
+----
+let paragraphs = document.getElementsByTagName("p");
+----
+
+* `querySelector(selector)`: Cette méthode renvoie le premier élément qui correspond à un ou plusieurs sélecteurs CSS spécifiés.
+
+[source, javascript]
+----
+let premierParagraphe = document.querySelector("p");
+----
+
+* `querySelectorAll(selector)`: Cette méthode renvoie une NodeList statique (non en direct) représentant une liste d'éléments du document qui correspondent au groupe de sélecteurs spécifié.
+
+[source, javascript]
+----
+let tousLesParagraphes = document.querySelectorAll("p");
+----
+
+Ces méthodes fournissent un moyen facile et flexible d'accéder à n'importe quel élément du DOM. Vous pouvez les utiliser pour sélectionner un élément à partir duquel vous pouvez ensuite naviguer vers d'autres éléments à l'aide de propriétés comme `parentNode`, `nextSibling`, `children`, etc.
+
+
+==== Parcourir le DOM
+
+Le DOM offre plusieurs méthodes pour naviguer à travers les noeuds. Par exemple :
+
+[source, javascript]
+----
+let element = document.querySelector("h1"); // sélectionne le premier élément <h1>
+
+console.log(element.parentNode); // affiche le noeud parent de <h1>, c'est-à-dire <body>
+
+console.log(element.nextSibling); // affiche le noeud frère suivant de <h1>, c'est-à-dire <p>
+
+console.log(element.firstChild); // affiche le premier noeud enfant de <h1>, c'est-à-dire le noeud texte "Bienvenue sur mon site web"
+----
+
+Ces méthodes nous permettent de naviguer de haut en bas (parent à enfant), de bas en haut (enfant à parent), et latéralement (entre les noeuds frères) dans l'arbre du DOM.
+
+Il est également possible de parcourir tous les noeuds enfants d'un élément donné en utilisant la propriété `childNodes` :
+
+[source, javascript]
+----
+let body = document.querySelector("body"); // sélectionne le premier élément <body>
+
+for(let i = 0; i < body.childNodes.length; i++) {
+    console.log(body.childNodes[i]); // affiche chaque noeud enfant de <body>
+}
+----
+
+Notez que `childNodes` inclut tous les types de noeuds, y compris les noeuds texte et les commentaires. Si vous souhaitez seulement parcourir les éléments enfants (les noeuds de type ``Element``), vous pouvez utiliser la propriété `children` à la place.
+
+
+==== Modifier le DOM
+
+Avec JavaScript, vous pouvez non seulement lire la structure du DOM, mais aussi la modifier. Vous pouvez changer le contenu d'un élément, ajouter ou supprimer des éléments, changer des attributs, et plus encore. Voici quelques exemples :
+
+[source, javascript]
+----
+let titre = document.querySelector("h1"); // sélectionne le premier élément <h1>
+
+// Changer le contenu d'un élément
+titre.textContent = "Bienvenue sur mon SUPER site web";
+
+// Changer un attribut
+titre.setAttribute("id", "mon-titre"); // ajoute l'attribut id avec la valeur "mon-titre"
+
+// Ajouter un nouvel élément
+let nouveauParagraphe = document.createElement("p"); // crée un nouvel élément <p>
+nouveauParagraphe.textContent = "C'est mon deuxième site web.";
+document.body.appendChild(nouveauParagraphe); // ajoute le nouvel élément à la fin de <body>
+
+// Supprimer un élément
+let ancienParagraphe = document.querySelector("p"); // sélectionne le premier élément <p>
+document.body.removeChild(ancienParagraphe); // supprime l'élément de <body>
+----
+
+
+==== Écouter et réagir aux événements avec `addEventListener`
+
+Dans les exemples précédents, nous avons modifié le DOM de manière programmée. Mais la plupart du temps, vous voudrez modifier le DOM en réponse à des actions de l'utilisateur, comme un clic sur un bouton, la saisie de texte dans un champ de formulaire, etc. Pour cela, vous pouvez utiliser la méthode `addEventListener`.
+
+La méthode `addEventListener` permet d'ajouter une fonction qui sera exécutée chaque fois qu'un certain événement se produit sur un élément. Par exemple, si vous voulez exécuter une fonction chaque fois que l'utilisateur clique sur un bouton, vous pouvez faire comme suit :
+
+[source, javascript]
+----
+let bouton = document.querySelector("button"); // sélectionne le premier élément <button>
+
+bouton.addEventListener("click", function() {
+    // Cette fonction sera exécutée chaque fois que l'utilisateur clique sur le bouton
+    alert("Merci d'avoir cliqué sur le bouton !");
+});
+----
+
+Il existe de nombreux types d'événements que vous pouvez écouter avec `addEventListener`, comme `"click"`, `"mouseover"`, `"keydown"`, `"load"`, et bien d'autres. De plus, la fonction que vous passez à `addEventListener` reçoit un argument qui est un objet d'événement contenant des informations sur l'événement, comme l'élément qui a déclenché l'événement, la position de la souris, la touche du clavier qui a été pressée, etc.
+
 
 == Méthodes avancées de JavaScript avec le DOM
 
+Prenons le fichier HTML suivant:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemple de manipulation DOM</title>
+    <style>
+        .ancien {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ma liste de tâches</h1>
+    <p id="introduction">Voici une liste des choses que je dois faire aujourd'hui.</p>
+    <ul id="liste-de-taches">
+        <li class="tache ancien">Acheter du lait</li>
+        <li class="tache">Récupérer le linge</li>
+        <li class="tache">Faire du yoga</li>
+        <li class="tache">Préparer le dîner</li>
+        <li class="tache">Lire un livre</li>
+    </ul>
+    <p id="conclusion">Il semble que j'ai une journée bien remplie devant moi!</p>
+
+    <script src="script.js"></script>
+</body>
+</html>
+----
+
+
+=== Utilisation de `forEach()`
+
+La méthode `forEach()` exécute une fonction donnée sur chaque élément d'un tableau. Cette méthode ne renvoie rien, ce qui la différencie des autres méthodes de tableau telles que `filter()`, `map()` et `reduce()` qui renvoient un nouveau tableau.
+
+Il est à noter que `forEach()` ne modifie pas le tableau original, mais il exécute la fonction de rappel pour chaque élément du tableau.
+
+Voici un exemple d'utilisation de `forEach()` pour ajouter un gestionnaire d'événements à chaque élément d'une liste de paragraphes:
+
+[source, javascript]
+----
+let paragraphs = document.getElementsByTagName("p"); 
+Array.from(paragraphs).forEach(p => {
+  p.addEventListener('click', function(event) {
+    alert('Vous avez cliqué sur un paragraphe.');
+  });
+});
+----
+
 === Utilisation de `filter()`
-- Explication et exemple de code ici...
+
+La méthode `filter()` en JavaScript crée un nouveau tableau avec tous les éléments qui passent le test mis en place par la fonction de rappel fournie. Elle est généralement utilisée pour filtrer les éléments d'un tableau qui correspondent à certains critères.
+
+[source, javascript]
+----
+let paragraphs = document.getElementsByTagName("p"); 
+let importantParagraphs = Array.from(paragraphs).filter(p => p.textContent.includes("important"));
+----
 
 === Utilisation de `map()`
-- Explication et exemple de code ici...
+
+La méthode `map()` crée un nouveau tableau avec les résultats de l'appel d'une fonction pour chaque élément du tableau. Elle est généralement utilisée pour créer un nouveau tableau basé sur les valeurs d'un tableau existant.
+
+[source, javascript]
+----
+let paragraphs = document.getElementsByTagName("p"); 
+let paragraphTexts = Array.from(paragraphs).map(p => p.textContent); // Retourne un tableau de String. 
+// Chaque valeur est le texte contenud dans le paragraphe.
+----
+[source, javascript]
+----
+let tasks = document.getElementsByClassName("tache");
+// Alternative: let tasks = document.querySelectorAll(".tache");
+let taskTexts = Array.from(tasks).map(task => task.textContent); 
+// Chaque valeur est le texte contenu dans l'élément ayant `class="tache"`.
+----
+
+
+Il est parfois préférable de travailler directement avec l'élément parent, ce qui n'est pas compliqué:
+
+[source, javascript]
+----
+let listeDeTaches = document.querySelector("#liste-de-taches");
+let itemsDeTache = Array.from(listeDeTaches.children);
+let textesDeTache = itemsDeTache.map(item => item.textContent);
+console.log(textesDeTache);
+----
 
 === Autres méthodes utiles
-- Explication ici...
+
+Il existe également d'autres méthodes utiles comme `reduce()`, `some()`, `every()`, etc., qui peuvent être utilisées pour manipuler et travailler avec les tableaux en JavaScript. Il est important de noter que ces méthodes ne modifient pas le tableau original mais renvoient un nouveau tableau 
+
+Par exemple, `reduce()` peut être utilisé pour réduire un tableau à une seule valeur, `some()` vérifie si au moins un élément du tableau passe le test mis en place par la fonction de rappel, et `every()` vérifie si tous les éléments passent le test.
 
 == Gestion efficace des événements avec la délégation d'événements
 
 === Qu'est-ce que la délégation d'événements
-- Explication ici...
+La délégation d'événements est une technique en JavaScript où un événement est ajouté à un seul élément parent, plutôt qu'à plusieurs éléments enfants. Cette technique tire parti du fait que les événements en JavaScript "remontent" (bubbling) dans le DOM. Lorsqu'un événement se produit sur un élément enfant, cet événement est également déclenché sur l'élément parent.
+
+La délégation d'événements peut améliorer les performances de votre page, car elle permet de réduire le nombre d'écouteurs d'événements que vous devez ajouter à votre page. Au lieu d'ajouter un écouteur d'événements à chaque élément enfant, vous pouvez ajouter un seul écouteur d'événements à l'élément parent.
 
 === Comment implémenter la délégation d'événements
-- Explication et exemple de code ici...
+La mise en œuvre de la délégation d'événements consiste à ajouter un écouteur d'événements à un élément parent, puis à utiliser la propriété `target` de l'événement pour déterminer quel élément enfant a déclenché l'événement. Voici comment vous pouvez le faire :
 
-== Amélioration des performances avec DocumentFragment et d'autres techniques
+[source, javascript]
+----
+let listeDeTaches = document.querySelector("#liste-de-taches");
+
+listeDeTaches.addEventListener("click", function(e) {
+    if (e.target.tagName === "li") {
+        e.target.classList.toggle("complet");
+    }
+});
+----
+
+Dans cet exemple, nous avons ajouté un écouteur d'événements "click" à l'élément "#liste-de-taches". Lorsqu'un événement "click" se produit sur l'un des éléments enfants de "#liste-de-taches", l'événement est également déclenché sur "#liste-de-taches". Ensuite, dans la fonction de rappel de l'écouteur d'événements, nous vérifions si l'élément qui a déclenché l'événement était un élément "li". Si c'est le cas, nous basculons (ajoutons ou supprimons) la classe "complet" de cet élément.
+
+Voici un exemple au complet:
+
+[source, html]
+----
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Délégation d'événements</title>
+    <style>
+        .conteneur {
+            width: 400px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-around;
+        }
+        .vignette {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="conteneur" class="conteneur">
+        <div class="vignette">Vignette 1</div>
+        <div class="vignette">Vignette 2</div>
+        <div class="vignette">Vignette 3</div>
+        <div class="vignette">Vignette 4</div>
+        <div class="vignette">Vignette 5</div>
+        <div class="vignette">Vignette 6</div>
+        <div class="vignette">Vignette 7</div>
+        <div class="vignette">Vignette 8</div>
+        <div class="vignette">Vignette 9</div>
+    </div>
+
+    <script>
+        let conteneur = document.querySelector("#conteneur");
+
+        conteneur.addEventListener("click", function(e) {
+            if (e.target.classList.contains("vignette")) {
+                alert(e.target.textContent + " a été cliqué");
+            }
+        });
+    </script>
+</body>
+</html>
+----
+
+
+=== Target vs currentTarget
+
+Lors de la manipulation d'événements dans JavaScript, deux propriétés de l'objet Event sont souvent utilisées : `target` et `currentTarget`. Ces deux propriétés peuvent parfois sembler similaires, mais elles ont des différences cruciales.
+
+==== `event.target`
+
+`event.target` fait référence à l'élément sur lequel l'événement a été déclenché. C'est l'élément qui a effectivement "causé" l'événement. Si vous cliquez sur un bouton, par exemple, l'objet Event qui est passé à votre gestionnaire d'événements aura sa propriété `target` définie sur l'élément bouton.
+
+==== `event.currentTarget`
+
+D'autre part, `event.currentTarget` fait toujours référence à l'élément sur lequel l'écouteur d'événements a été attaché. Dans le cas de la délégation d'événements, où l'écouteur est attaché à un élément parent et que l'événement est déclenché par un élément enfant, `event.currentTarget` sera l'élément parent.
+
+Pour résumer, alors que `event.target` est l'élément qui a "causé" l'événement, `event.currentTarget` est l'élément qui "écoute" l'événement.
+
+
+=== Bubbling et Capturing
+
+Imaginez une grande fête avec beaucoup d'invités. Lors de cette fête, vous décidez de raconter une blague à un ami. Tout le monde autour de vous entend votre blague, rit et la répète à leurs voisins. C'est ce qu'on appelle le "bubbling" (ébullition) : l'information (la blague) commence par vous et se propage à tous ceux qui sont autour.
+
+Maintenant, imaginez que vous êtes à la même fête, mais cette fois, une superstar entre dans la pièce. Tout le monde se tait et tourne son attention vers la superstar. C'est ce qu'on appelle le "capturing" (capture) : l'information (la superstar entrant) commence à partir du plus grand groupe (tous les invités de la fête) et se dirige vers la cible spécifique (la superstar).
+
+Dans le monde de JavaScript, lorsque vous cliquez sur un élément, l'information sur cet événement peut voyager de deux façons : du haut vers le bas (capturing) ou du bas vers le haut (bubbling). En général, on utilise surtout le bubbling, mais il est bon de savoir que les deux existent.
+
+
+== Amélioration des performances avec `DocumentFragment`
 
 === Introduction à `DocumentFragment`
-- Explication et exemple de code ici...
+Le `DocumentFragment` est une caractéristique du DOM qui permet de créer un noeud de document minimal qui n'a pas de parent. Il est utilisé comme une version légère d'un `Document` et aide à améliorer les performances en évitant les opérations de reflow (recalcul de la disposition des éléments) et de repaint (redessin) inutiles lorsque vous ajoutez ou retirez plusieurs noeuds en même temps.
+
+Voici un exemple de la manière dont vous pouvez utiliser `DocumentFragment` :
+
+[source, javascript]
+----
+let fragment = document.createDocumentFragment(); // Crée un nouveau DocumentFragment.
+let nombres = ['Un', 'Deux', 'Trois'];
+
+// Ajoute chaque nombre à un élément de liste, puis ajoute cet élément au DocumentFragment.
+nombres.forEach((nombre) => {
+  let item = document.createElement('li');
+  item.textContent = nombre;
+  fragment.appendChild(item);
+});
+
+document.getElementById('ma-liste').appendChild(fragment); // Ajoute tous les éléments de la liste en une seule opération.
+----
+
+== Conclusion
 
 === Autres techniques de débogage et d'amélioration des performances
-- Explication ici...
+Il existe de nombreuses autres techniques que vous pouvez utiliser pour améliorer les performances de vos scripts JavaScript et de votre DOM.
 
-== Conclusion et exercices pratiques
+- Utilisation des outils de débogage du navigateur : Chaque navigateur dispose d'outils de développement intégrés qui peuvent vous aider à identifier les goulots d'étranglement de performance. Par exemple, dans Google Chrome, l'onglet "Performance" de DevTools fournit une analyse détaillée de la performance en mesurant le temps passé par divers aspects de votre page lors du chargement et de l'exécution. Il mesure le temps passé par le rendu, les scripts, la mise en page, etc.
 
-=== Récapitulatif des concepts clés
-- Explication ici...
+- Utilisation de `requestAnimationFrame` pour les animations : Lorsque vous créez des animations avec JavaScript, l'utilisation de `requestAnimationFrame` plutôt que `setTimeout` ou `setInterval` peut améliorer considérablement les performances. Cette fonction vous permet de contrôler le taux de rafraîchissement de l'animation pour qu'il corresponde à celui de l'écran de l'utilisateur, évitant ainsi les animations saccadées ou lentes.
 
-=== Exercices pratiques
-- Proposez ici quelques exercices basés sur le contenu du cours...
+- Minimisation des manipulations du DOM : Chaque fois que vous modifiez le DOM, le navigateur peut devoir recalculer la mise en page de la page, ce qui peut être coûteux en termes de performance. Essayez de regrouper vos modifications du DOM autant que possible, et évitez de faire des modifications qui forcent le navigateur à recalculer la mise en page.
+
+- Utilisation de structures de données efficaces : L'efficacité de vos scripts peut souvent être améliorée en utilisant des structures de données appropriées. Par exemple, si vous devez souvent chercher des éléments dans un grand ensemble de données, l'utilisation d'un `Set` ou d'une `Map` peut être plus rapide que l'utilisation d'un tableau.
+
+- Limitation de la portée de vos sélections de DOM : Lorsque vous utilisez des méthodes telles que `document.querySelector` ou `document.getElementById`, le navigateur doit parcourir le DOM pour trouver les éléments correspondants. Si vous pouvez limiter la portée de la recherche à un sous-ensemble plus petit du DOM, cela peut améliorer les performances.
+
+- Utilisation de Web Workers : Les Web Workers vous permettent d'exécuter du JavaScript sur un fil d'exécution séparé, ce qui peut améliorer les performances pour les scripts de longue durée ou intensifs en calcul.
+
+- Utilisation de Service Workers : Les Service Workers permettent de mettre en cache les ressources de votre site web dans le navigateur de l'utilisateur, ce qui peut améliorer considérablement les temps de chargement.
+
+- Optimisation des images et autres ressources : Les images non optimisées ou trop grandes peuvent ralentir le chargement de votre page. Utilisez des formats d'image optimisés et compressez vos images autant que possible sans perdre de qualité perceptible. De même, essayez de minimiser l'utilisation de CSS et de JavaScript inutiles.
+
+- Utilisation de la mise en cache du navigateur : Le navigateur de l'utilisateur peut mettre en cache des ressources telles que les fichiers CSS, JavaScript et les images, ce qui peut accélérer le chargement des pages. Vous pouvez contrôler la mise en cache en utilisant les
+
+- Asynchronisme : L'utilisation de code asynchrone peut améliorer la réactivité de votre page en permettant au navigateur de continuer à traiter d'autres tâches pendant que le code asynchrone s'exécute. Les Promesses et les fonctions asynchrones sont deux constructions clés pour écrire du code asynchrone en JavaScript.
+
+
+
+
+== Récapitulatif des concepts clés
+
+Dans cette leçon, nous avons couvert un large éventail de concepts clés liés à la manipulation du DOM avec JavaScript. Voici un récapitulatif des points essentiels à retenir :
+
+* Le Document Object Model (DOM) : Il s'agit d'une interface de programmation pour les documents HTML et XML. Il représente la structure du document sous forme d'un arbre d'éléments, où chaque élément est appelé un noeud. Ces noeuds peuvent être manipulés avec JavaScript.
+
+** Parcours du DOM : Vous pouvez accéder aux éléments du DOM en utilisant des méthodes comme `document.getElementById`, `document.querySelector` et leurs variantes. Vous pouvez également naviguer dans l'arbre du DOM en utilisant des propriétés comme `parentNode`, `childNodes`, `firstChild`, `lastChild`, `nextSibling` et `previousSibling`.
+
+** Modification du DOM : JavaScript vous permet de modifier le contenu du DOM, de changer les attributs des éléments et même d'ajouter ou de supprimer des éléments. Des méthodes comme `createElement`, `appendChild`, `removeChild`, `setAttribute` et `removeAttribute` sont couramment utilisées pour ces tâches.
+
+** Gestion des événements : JavaScript vous permet d'écouter et de réagir aux événements qui se produisent dans le DOM, comme les clics de souris, les frappes de touches, les changements de formulaire, etc. Pour cela, vous utilisez principalement la méthode `addEventListener`.
+
+* Délégation d'événements : Il s'agit d'une technique qui consiste à écouter les événements sur un parent commun plutôt que sur chaque enfant individuellement. Cela peut améliorer les performances et simplifier votre code, en particulier lorsque vous avez de nombreux éléments sur lesquels vous devez écouter des événements.
+
+* Amélioration des performances : Il existe de nombreuses techniques pour améliorer les performances de vos scripts JavaScript et de votre manipulation du DOM. L'utilisation de `DocumentFragment` pour regrouper les modifications du DOM, l'utilisation d'outils de débogage, l'utilisation de `requestAnimationFrame` pour les animations, l'optimisation de vos sélections de DOM et l'utilisation de Web Workers sont quelques-unes des techniques que nous avons discutées.
+
+
+== Exercices
+
+1. Créez une page HTML simple avec un certain nombre d'éléments `<p>`. Utilisez JavaScript pour parcourir ces éléments et modifiez le contenu de chaque élément pour y inclure le numéro d'index de l'élément.
+
+2. En utilisant la page HTML créée dans l'exercice précédent, ajoutez un gestionnaire d'événements qui change la couleur de l'élément `<p>` lorsqu'on clique dessus. Essayez d'implémenter cela avec et sans délégation d'événements.
+
+3. Créez une nouvelle page HTML avec une liste non ordonnée. Utilisez JavaScript pour ajouter un nouvel élément de liste à la liste chaque fois que l'utilisateur appuie sur une certaine touche du clavier (par exemple, la touche Entrée).
+
+4. Dans un document HTML existant, utilisez JavaScript pour sélectionner un élément par son ID, puis modifiez un de ses attributs (par exemple, changez la couleur de fond).
+
+5. Créez un tableau d'objets JavaScript, où chaque objet représente une personne avec un nom et un âge. En utilisant ce tableau, créez dynamiquement une table HTML pour afficher ces informations. Essayez d'utiliser `DocumentFragment` pour cette tâche.
+
+6. À l'aide d'une page HTML existante, utilisez JavaScript pour sélectionner tous les éléments d'une certaine classe et changez un de leurs styles CSS.
+
+7. Utilisez `requestAnimationFrame` pour créer une animation simple sur votre page, comme un élément qui se déplace à travers l'écran.
+
+8. À l'aide d'une page HTML existante, utilisez les outils de débogage de votre navigateur pour identifier et corriger un problème de performance.
+
